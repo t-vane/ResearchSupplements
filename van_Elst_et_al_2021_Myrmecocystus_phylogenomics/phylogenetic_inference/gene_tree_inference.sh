@@ -6,8 +6,8 @@ set -euo pipefail
 #### SET-UP ####
 ################################################################################
 ## Software:
-SEQKIT=/global/homes/jg/t_vane02/software/seqkit
-# iqtree needs to be included in $PATH
+SEQKIT=/global/homes/jg/t_vane02/software/seqkit # (https://github.com/shenwei356/seqkit)
+# iqtree needs to be included in $PATH (v1.6.11; http://www.iqtree.org/)
 
 ## Command-line args:
 ALIGNMENT_FILE=$1

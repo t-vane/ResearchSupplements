@@ -6,8 +6,7 @@ set -euo pipefail
 #### SET-UP ####
 ################################################################################
 ## Software:
-# The statistical binning pipeline of Siavash Mirarab is used (https://github.com/smirarab/binning)
-BINNING_SCRIPTS=/global/homes/jg/t_vane02/software/binning-master/
+BINNING_SCRIPTS=/global/homes/jg/t_vane02/software/binning-master/ # Pipeline by S. Mirarab is used (https://github.com/smirarab/binning)
 
 ## Command-line args:
 GENES_DIR=$1

@@ -6,7 +6,7 @@ set -euo pipefail
 #### SET-UP ####
 ################################################################################
 ## Software:
-# iqtree needs to be included in $PATH
+# iqtree needs to be included in $PATH (v1.6.11; http://www.iqtree.org/)
 
 ## Command-line args:
 ALIGNMENT=$1

@@ -6,7 +6,7 @@ set -euo pipefail
 #### SET-UP ####
 ################################################################################
 ## Software:
-ASTRAL=/global/homes/jg/t_vane02/software/Astral/astral.5.6.3.jar
+ASTRAL=/global/homes/jg/t_vane02/software/Astral/astral.5.6.3.jar # (v5.6.3; https://github.com/smirarab/ASTRAL)
 
 ## Command-line args:
 GENE_TREES=$1

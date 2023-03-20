@@ -6,7 +6,7 @@ set -euo pipefail
 #### SET-UP ####
 ################################################################################
 ## Software:
-# phyluce scripts (https://phyluce.readthedocs.io/en/latest/) need to be included in $PATH
+# phyluce needs to be included in $PATH (v1.6.7; https://phyluce.readthedocs.io/en/latest/)
 
 ## Command-line args:
 CONTIG_DIR=$1

@@ -6,8 +6,8 @@ set -euo pipefail
 #### SET-UP ####
 ################################################################################
 ## Software:
-METASPADES=/global/homes/jg/t_vane02/software/SPAdes-3.13.1-Linux/bin/metaspades.py
-# seqtk needs to be included in $PATH
+METASPADES=/global/homes/jg/t_vane02/software/SPAdes-3.13.1-Linux/bin/metaspades.py # (v3.13.1; https://github.com/ablab/spades)
+# seqtk needs to be included in $PATH (https://github.com/lh3/seqtk)
 
 ## Command-line args:
 NT=$1

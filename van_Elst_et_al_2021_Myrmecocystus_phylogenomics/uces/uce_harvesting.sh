@@ -6,9 +6,9 @@ set -euo pipefail
 #### SET-UP ####
 ################################################################################
 ## Software:
-# ucsc-fatotwobit needs to be included in $PATH
-# ucsc-twoBitInfo needs to be included in $PATH
-# phyluce scripts (https://phyluce.readthedocs.io/en/latest/) need to be included in $PATH
+# ucsc-fatotwobit needs to be included in $PATH (https://genome.ucsc.edu/index.html)
+# ucsc-twoBitInfo needs to be included in $PATH (https://genome.ucsc.edu/index.html)
+# phyluce needs to be included in $PATH (v1.6.7; https://phyluce.readthedocs.io/en/latest/)
 
 ## Command-line args:
 NT=$1

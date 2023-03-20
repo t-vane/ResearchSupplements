@@ -2,8 +2,8 @@
 #### DIVERGENCE DATING ####
 ################################################################################
 ## Software:
-# spruceup.py needs to be included in $PATH
-AMAS=/global/homes/jg/t_vane02/software/AMAS-master/amas/AMAS.py
+# spruceup needs to be included in $PATH (https://github.com/marekborowiec/spruceup)
+AMAS=/global/homes/jg/t_vane02/software/AMAS-master/amas/AMAS.py # (https://github.com/marekborowiec/AMAS)
 
 HOME=/global/homes/jg/t_vane02
 SCRIPTS=$HOME/scripts

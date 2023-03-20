@@ -6,8 +6,8 @@ set -euo pipefail
 #### SET-UP ####
 ################################################################################
 ## Software:
-MAFFT=/global/homes/jg/t_vane02/software/mafft-7.429/bin/mafft
-# trimal needs to be included in $PATH
+MAFFT=/global/homes/jg/t_vane02/software/mafft-7.429/bin/mafft # (v7.429; https://mafft.cbrc.jp/alignment/software/)
+# trimal needs to be included in $PATH (v1.4.rev15; http://trimal.cgenomics.org/trimal)
 
 ## Command-line args:
 NT=$1

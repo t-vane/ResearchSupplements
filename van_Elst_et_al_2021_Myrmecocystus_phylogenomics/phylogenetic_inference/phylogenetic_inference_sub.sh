@@ -2,10 +2,9 @@
 #### PHYLOGENETIC INFERENCE ####
 ################################################################################
 ## Software:
-# iqtree needs to be included in $PATH
-
-AMAS=/global/homes/jg/t_vane02/software/AMAS-master/amas/AMAS.py
-NWED=/global/homes/jg/t_vane02/software/newick-utils-1.6/src/nw_ed
+# iqtree needs to be included in $PATH (v1.6.11; http://www.iqtree.org/)
+AMAS=/global/homes/jg/t_vane02/software/AMAS-master/amas/AMAS.py # (https://github.com/marekborowiec/AMAS)
+NWED=/global/homes/jg/t_vane02/software/newick-utils-1.6/src/nw_ed # (https://github.com/tjunier/newick_utils)
 
 ## Variables:
 HOME=/global/homes/jg/t_vane02

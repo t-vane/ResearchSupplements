@@ -6,7 +6,7 @@ set -euo pipefail
 #### SET-UP ####
 ################################################################################
 ## Software:
-SWSCEN=/global/homes/jg/t_vane02/software/PFinderUCE-SWSC-EN-master/py_script/SWSCEN.py
+SWSCEN=/global/homes/jg/t_vane02/software/PFinderUCE-SWSC-EN-master/py_script/SWSCEN.py # (https://github.com/Tagliacollo/PFinderUCE-SWSC-EN)
 
 ## Command-line args:
 IN_FILE=$1

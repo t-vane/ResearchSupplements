@@ -6,8 +6,8 @@ set -euo pipefail
 #### SET-UP ####
 ################################################################################
 ## Software:
-# illumiprocessor needs to be included in $PATH
-# phyluce scripts (https://phyluce.readthedocs.io/en/latest/) need to be included in $PATH
+# illumiprocessor needs to be included in $PATH (https://illumiprocessor.readthedocs.io/en/latest/)
+# phyluce needs to be included in $PATH (v1.6.7; https://phyluce.readthedocs.io/en/latest/)
 
 ## Command-line args:
 NT=$1

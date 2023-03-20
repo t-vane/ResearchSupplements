@@ -6,7 +6,7 @@ set -euo pipefail
 #### SET-UP ####
 ################################################################################
 ## Software:
-IQTREE2=/global/homes/jg/t_vane02/software/iqtree-2.0.4-Linux/bin/iqtree
+IQTREE2=/global/homes/jg/t_vane02/software/iqtree-2.0.4-Linux/bin/iqtree # (v2.0.5; http://www.iqtree.org/)
 CONCORD=/global/homes/jg/t_vane02/scripts/concordance.R
 
 ## Command-line args:

@@ -6,7 +6,7 @@ set -euo pipefail
 #### SET-UP ####
 ################################################################################
 ## Software:
-# mcmctree needs to be included in $PATH
+# mcmctree of PAML needs to be included in $PATH (v4.8; http://abacus.gene.ucl.ac.uk/software/paml.html)
 
 ## Command-line args:
 CTL_FILE=$1

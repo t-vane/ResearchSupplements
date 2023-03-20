@@ -6,7 +6,7 @@ set -euo pipefail
 #### SET-UP ####
 ################################################################################
 ## Software:
-PFINDER=/global/homes/jg/t_vane02/software/partitionfinder-2.1.1/PartitionFinder.py
+PFINDER=/global/homes/jg/t_vane02/software/partitionfinder-2.1.1/PartitionFinder.py # (v2.1.1; https://www.robertlanfear.com/partitionfinder/)
 
 ## Command-line args:
 CONF_FILE=$1

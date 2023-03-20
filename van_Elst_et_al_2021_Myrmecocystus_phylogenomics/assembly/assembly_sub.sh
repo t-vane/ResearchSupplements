@@ -2,7 +2,7 @@
 #### ASSEMBLY ####
 ################################################################################
 ## Software:
-# phyluce scripts (https://phyluce.readthedocs.io/en/latest/) need to be included in $PATH
+# phyluce needs to be included in $PATH (v1.6.7; https://phyluce.readthedocs.io/en/latest/)
 
 HOME=/global/homes/jg/t_vane02
 SCRIPTS=$HOME/scripts

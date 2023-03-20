@@ -6,7 +6,7 @@ set -euo pipefail
 #### SET-UP ####
 ################################################################################
 ## Software:
-# paup needs to be included in $PATH
+# paup needs to be included in $PATH (v4.0a; https://paup.phylosolutions.com/)
 
 ## Command-line args:
 IN_FILE=$1

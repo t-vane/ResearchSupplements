@@ -24,7 +24,7 @@ LOCUS_DB=uces.sqlite # Name for the database created in UCE_extraction.sh
 TAXON_SET=genus # A configuration file called taxon-set-$TAXON_SET.conf with a list of samples needs to be present in $WD/uce-extraction
 
 ## Match contigs to probes for all samples
-ID=$(qsub -N uce_match_contigs -o $WD/logs -e $WD/logs $SCRIPTS/uce_match_contigs.sh $ASSEMBLY_DIR $PROBES $WD/uce-extraction)
+ID=$(qsub -N uce_match_contigs -o $WD/logs -e $WD/logs $SCRIPTS/uce_match_contigs.sh $ASSEMBLY_DIR $PROBES $WD)
 ## Extract UCEs for desired taxon set
-qsub -N uce_extraction -o $WD/logs -e $WD/logs -W depend=afterok:$ID $SCRIPTS/uce_extraction.sh $ASSEMBLY_DIR $WD/uce-extraction $LOCUS_DB $TAXON_SET
+qsub -N uce_extraction_$TAXON_SET -o $WD/logs -e $WD/logs -W depend=afterok:$ID $SCRIPTS/uce_extraction.sh $ASSEMBLY_DIR $WD $LOCUS_DB $TAXON_SET
 
