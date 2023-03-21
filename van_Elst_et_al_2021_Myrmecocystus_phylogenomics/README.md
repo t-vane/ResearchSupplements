@@ -16,13 +16,13 @@ Each directory contains a single script from which the respective pipeline is ex
 `./read_cleaning` contains scripts to clean demultiplexed raw sequencing reads with [Illumiprocessor](https://illumiprocessor.readthedocs.io/en/latest/). 
 
 ### Assembly
-`./assembly` contains scripts to assemble clean sequencing reads with [metaSPAdes v3.13.1] (https://github.com/ablab/spades).
+`./assembly` contains scripts to assemble clean sequencing reads with [metaSPAdes v3.13.1](https://github.com/ablab/spades).
 
 ### Extraction and harvesting of UCE sequences
 `./uces` contains scripts to harvest additional UCE sequences form published genomes and to extract UCEs for a specified sample set from assembled sequences with [phyluce v1.6.7](https://phyluce.readthedocs.io/en/latest/).
 
 ### Alignment and trimming
-`./alignment_trimming` contains scripts to align, trim and concatenate single UCE loci with [MAFFT v7.429](https://mafft.cbrc.jp/alignment/software/), [trimAlv1.4.rev15](http://trimal.cgenomics.org/trimal)] and [AMAS](https://github.com/marekborowiec/AMAS), respectively.
+`./alignment_trimming` contains scripts to align, trim and concatenate single UCE loci with [MAFFT v7.429](https://mafft.cbrc.jp/alignment/software/), [trimAlv1.4.rev15](http://trimal.cgenomics.org/trimal) and [AMAS](https://github.com/marekborowiec/AMAS), respectively.
 
 ### Partitioning
 `./partitioning` contains scripts to create and optimize alternative partitioning schemes for the concatenated UCE alignment with [PartitionFinder v2.1.1](https://www.robertlanfear.com/partitionfinder/).
