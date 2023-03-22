@@ -1,19 +1,29 @@
 #!/usr/bin/env Rscript
 
-#Packages
+cat("\n#### ancestral_states.R: Starting script.\n")
+
+## Command-line arguments
+options(warn = 1)
+args <- commandArgs(trailingOnly = TRUE)
+phylogeny = args[1]
+characters = args[2]
+WD = args[3]
+
+## Packages
 library(phytools)
 library(geiger)
 
-args = commandArgs(trailingOnly=TRUE)
-phylogeny = args[1]
-characters = args[2]
-directory = args[3]
-
-# Read the data
+## Process command-line args
 tree = read.tree(phylogeny)
 chars = read.csv(characters)
+setwd(WD)
 
-# Estimate model fit
+## Report
+cat("\n#### pca.R: Phylogeny:", phylogeny, "\n")
+cat("#### pca.R: Characters:", characters, "\n")
+cat("#### pca.R: Working directory:", WD, "\n\n")
+
+## Estimate model fit
 foraging = factor(chars$char)
 names(foraging) = chars$species
 
@@ -29,15 +39,18 @@ results.anc[1,-1] <- c(lnL=ER_fit$opt$lnL, AICc=ER_fit$opt$aicc, ER_fit$opt$k)
 results.anc[2,-1] <- c(lnL=SYM_fit$opt$lnL, AICc=SYM_fit$opt$aicc, SYM_fit$opt$k)
 results.anc[3,-1] <- c(lnL=ARD_fit$opt$lnL, AICc=ARD_fit$opt$aicc, ARD_fit$opt$k)
 
-write.table(results.anc, paste0(directory, "/modelfit.txt"))
+write.table(results.anc, "modelfit.txt")
 
 # Ancestral state estimation and plotting
 ER <- make.simmap(tree, matrix, nsim=500, model="ER")
 SYM <- make.simmap(tree, matrix, nsim=500, model="SYM")
 ARD <- make.simmap(tree, matrix, nsim=500, model="ARD")
 
-pdf(paste0(directory, "/anc_states.pdf"))
+pdf(paste0("anc_states.pdf")
 describe.simmap(ER, plot=TRUE)
 describe.simmap(SYM, plot=TRUE)
 describe.simmap(ARD, plot=TRUE)
 dev.off()
+
+## Report:
+cat("\n#### ancestral_states.R: Done with script.\n")

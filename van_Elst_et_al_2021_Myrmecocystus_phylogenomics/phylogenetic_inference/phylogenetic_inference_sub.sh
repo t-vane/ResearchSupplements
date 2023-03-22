@@ -18,10 +18,11 @@ PARTITION_SCHEME=$WD/partitions.nex # File with paragraph 'Nexus formatted chara
 mkdir -p $WD/logs
 
 #################################################################
-#### 1 MAXIMUM LIKELIHOOD INFERENCE
+#### 1 MAXIMUM LIKELIHOOD INFERENCE ####
 #################################################################
 ## Submit four independent runs of IQ-TREE to increase probability to find global likelihood maximum
-for i in {1..4}
+REPEATS=4
+for i in $(seq 1 $REPEATS)
 do	
 	mkdir -p $WD/ML/run$i
 	ln -s $ALIGNMENT $WD/ML/run$i
@@ -34,11 +35,11 @@ cat $WD/ML/run*/partitions.nex.treefile > $WD/ML/ml_trees.txt
 iqtree -rf_all $WD/ML/ml_trees.txt
 
 #################################################################
-#### 2 SPECIES TREE INFERENCE UNDER THE MULTISPECIES COALESCENT
+#### 2 SPECIES TREE INFERENCE UNDER THE MULTISPECIES COALESCENT ####
 #################################################################
 
 ##################################################
-### 2.1 GENE TREE INFERENCE
+### 2.1 GENE TREE INFERENCE ####
 ##################################################
 LOCUS_PARTITIONS=$HOME/uce-myrmecocystus/uce-extraction/$TAXON_SET/partitioning/locuspartitions.nex # Contains location of each UCE in concatenated alignment
 
@@ -61,10 +62,10 @@ mv $(dirname $ALIGNMENT)/UCE*.fas $WD/ML/single-locus
 ls $WD/ML/single-locus/UCE*.fas > $WD/ML/single-locus/alignments.txt
 
 ## Maximum likelihood inference per locus
-qsub -t 1-$(cat $WD/ML/single-locus/alignments.txt | wc -l) -N gene_tree_inference -o $WD/logs -e $WD/logs $SCRIPTS/gene_tree_inference.sh $WD/ML/single-locus/alignments.txt
+qsub -sync y -t 1-$(cat $WD/ML/single-locus/alignments.txt | wc -l) -N gene_tree_inference -o $WD/logs -e $WD/logs $SCRIPTS/gene_tree_inference.sh $WD/ML/single-locus/alignments.txt
 
 ##################################################
-### 2.2 STATISTICAL BINNING
+### 2.2 STATISTICAL BINNING ####
 ##################################################
 mkdir -p $WD/statistical-binning
 
@@ -80,15 +81,14 @@ done
 
 ## Run statistical binning
 SUPPORT=95
-qsub -N statistical_binning -o $WD/logs -e $WD/logs $SCRIPTS/statistical_binning.sh $WD/ML/single-locus/ $SUPPORT $WD/ML/run1/partitions.nex.treefile
+qsub -sync y -N statistical_binning -o $WD/logs -e $WD/logs $SCRIPTS/statistical_binning.sh $WD/ML/single-locus/ $SUPPORT $WD/ML/run1/partitions.nex.treefile
 
 ## Identify bins that are comprised of more than one locus (i.e., two or three loci) and run ML inference on them
 find $WD/ML/single-locus/output/supergenes -type f -name "bin*" -print0 | xargs -0 wc -l | grep "2 .\|3 ." | sed -e 's/2 .\///g' | sed -e 's/3 .\///g' > $WD/ML/single-locus/output/supergenes/bin_multiple_loci.txt
-qsub -t 1-$(cat $WD/ML/single-locus/output/supergenes/bin_multiple_loci.txt | wc -l) -N gene_tree_inference_supergenes -o $WD/logs -e $WD/logs $SCRIPTS/gene_tree_inference.sh $WD/ML/single-locus/output/supergenes/bin_multiple_loci.txt
+qsub -sync y -t 1-$(cat $WD/ML/single-locus/output/supergenes/bin_multiple_loci.txt | wc -l) -N gene_tree_inference_supergenes -o $WD/logs -e $WD/logs $SCRIPTS/gene_tree_inference.sh $WD/ML/single-locus/output/supergenes/bin_multiple_loci.txt
 
 ##################################################
-### 2.3 SPECIES TREE ESTIMATION WITH ASTRAL 
-###		FOR BINNED AND UNBINNED LOCI
+### 2.3 SPECIES TREE ESTIMATION WITH ASTRAL FOR BINNED AND UNBINNED LOCI ####
 ##################################################
 MAPPING=$WD/astral/mapping.txt # Assigns specimens to species
 mkdir -p $WD/astral/unbinned $WD/astral/binned
@@ -128,7 +128,7 @@ do
 done
 
 ##################################################
-### 2.3 SPECIES TREE ESTIMATION WITH SVDquartets
+### 2.3 SPECIES TREE ESTIMATION WITH SVDquartets ####
 ##################################################
 mkdir -p $WD/svdq
 
@@ -149,7 +149,7 @@ cat $ALIGNMENT $CHAR_PARTITIONS $TAX_PARTITIONS $WD/svdq/blockfile.txt > $WD/svd
 qsub -N species_tree_svdq -o $WD/logs -e $WD/logs $SCRIPTS/species_tree_svdq.sh $WD/svdq/concat_alignment_paup.nex $WD/svdq/concat_alignment_paup.log
 
 ##################################################
-### 2.4 CONCORDANCE FACTOR ANALYSIS
+### 2.4 CONCORDANCE FACTOR ANALYSIS ####
 ##################################################
 mkdir -p $WD/concordance-factors
 NT=16

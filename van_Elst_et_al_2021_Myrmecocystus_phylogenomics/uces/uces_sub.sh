@@ -10,15 +10,15 @@ PROBES=$WD/uces/hymenoptera-v2-ANT-SPECIFIC-uce-baits.fasta # UCE probe sequence
 mkdir -p $WD/logs
 
 #################################################################
-#### 1 HARVEST UCES FROM PUBLISHED GENOMES
+#### 1 HARVEST UCES FROM PUBLISHED GENOMES ####
 #################################################################
 NT=16
 GENOMES=$WD/uce-harvesting/genomes.txt # List of genome names without file extension
 
-qsub -pe smp $NT -N uce_harvesting -o $WD/logs -e $WD/logs $SCRIPTS/uce_harvesting.sh $NT $WD/uce-harvesting $GENOMES $PROBES $ASSEMBLY_DIR
+qsub -sync y -pe smp $NT -N uce_harvesting -o $WD/logs -e $WD/logs $SCRIPTS/uce_harvesting.sh $NT $WD/uce-harvesting $GENOMES $PROBES $ASSEMBLY_DIR
 
 #################################################################
-#### 2 EXTRACT UCES
+#### 2 EXTRACT UCES ####
 #################################################################
 LOCUS_DB=uces.sqlite # Name for the database created in UCE_extraction.sh
 TAXON_SET=genus # A configuration file called taxon-set-$TAXON_SET.conf with a list of samples needs to be present in $WD/uce-extraction

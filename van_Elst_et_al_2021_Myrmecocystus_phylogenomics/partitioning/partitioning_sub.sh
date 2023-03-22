@@ -9,7 +9,7 @@ WD=$HOME/uce-myrmecocystus/uces/$TAXON_SET/partitioning
 mkdir -p $WD/logs
 
 #################################################################
-#### 1 CREATE TRIPLET PARTITIONS FOR EACH LOCUS
+#### 1 CREATE TRIPLET PARTITIONS FOR EACH LOCUS ####
 #################################################################
 ALIGNMENT=$HOME/uce-myrmecocystus/uces/$TAXON_SET/alignments/concat/mafft-trimal-concat.fas-nex.out # NEXUS-formatted alignment
 LOCUS_INFO=$WD/locuspartitions.nex # NEXUS file with UCE locus information; can be taken from mafft-trimal-concat.fas-part (see alignment section)
@@ -17,10 +17,10 @@ LOCUS_INFO=$WD/locuspartitions.nex # NEXUS file with UCE locus information; can 
 cat $ALIGNMENT $LOCUS_INFO > $WD/alignment-concatenated-partitions.nex
 
 ## Run SWSC-EN
-qsub -N SWSC-EN -o $WD/logs -e $WD/logs $SCRIPTS/swscen.sh $WD/alignment-concatenated-partitions.nex
+qsub sync -y -N SWSC-EN -o $WD/logs -e $WD/logs $SCRIPTS/swscen.sh $WD/alignment-concatenated-partitions.nex
 
 #################################################################
-#### 2 RUN PARTITIONFINDER
+#### 2 RUN PARTITIONFINDER ####
 #################################################################
 mkdir -p $WD/locus $WD/triplet
 

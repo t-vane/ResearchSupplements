@@ -13,17 +13,17 @@ WD=$HOME/uce-myrmecocystus/uces/$TAXON_SET/alignments
 mkdir -p $WD/logs
 
 #################################################################
-#### 1 ALIGN AND TRIM SINGLE LOCI
+#### 1 ALIGN AND TRIM SINGLE LOCI ####
 #################################################################
 NT=12
 
 ## Create list of loci 
 ls $HOME/uce-myrmecocystus/uces/$TAXON_SET/exploded-fastas-all > $WD/loci.txt
 ## Align and trim loci
-qsub -pe smp $NT -t 1-$(cat $WD/loci.txt | wc -l) -N alignment_trimming -o $WD/logs -e $WD/logs $SCRIPTS/alignment_trimming.sh $NT $WD/loci.txt $WD
+qsub -sync y -pe smp $NT -t 1-$(cat $WD/loci.txt | wc -l) -N alignment_trimming -o $WD/logs -e $WD/logs $SCRIPTS/alignment_trimming.sh $NT $WD/loci.txt $WD
 
 #################################################################
-#### 2 CONCATENATE ALIGNMENTS AND TRIM
+#### 2 CONCATENATE ALIGNMENTS AND TRIM ####
 #################################################################
 ## Concatenate all alignments
 mkdir -p $WD/concat
