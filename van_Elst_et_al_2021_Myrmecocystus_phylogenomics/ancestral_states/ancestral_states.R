@@ -9,21 +9,22 @@ phylogeny = args[1]
 characters = args[2]
 WD = args[3]
 
+## Report
+cat("\n#### ancestral_states.R: Phylogeny:", phylogeny, "\n")
+cat("#### ancestral_states.R: Characters:", characters, "\n")
+cat("#### ancestral_states.R: Working directory:", WD, "\n\n")
+
 ## Packages
 library(phytools)
 library(geiger)
 
-## Process command-line args
+## Process command-line arguments
 tree = read.tree(phylogeny)
 chars = read.csv(characters)
 setwd(WD)
 
-## Report
-cat("\n#### pca.R: Phylogeny:", phylogeny, "\n")
-cat("#### pca.R: Characters:", characters, "\n")
-cat("#### pca.R: Working directory:", WD, "\n\n")
-
 ## Estimate model fit
+cat("#### ancestral_states.R: Estimating model fit ... \n")
 foraging = factor(chars$char)
 names(foraging) = chars$species
 
@@ -42,6 +43,7 @@ results.anc[3,-1] <- c(lnL=ARD_fit$opt$lnL, AICc=ARD_fit$opt$aicc, ARD_fit$opt$k
 write.table(results.anc, "modelfit.txt")
 
 # Ancestral state estimation and plotting
+cat("#### ancestral_states.R: Estimating ancestral states ... \n")
 ER <- make.simmap(tree, matrix, nsim=500, model="ER")
 SYM <- make.simmap(tree, matrix, nsim=500, model="SYM")
 ARD <- make.simmap(tree, matrix, nsim=500, model="ARD")

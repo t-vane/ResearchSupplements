@@ -2,7 +2,14 @@
 
 #The following R code was adapted from http://www.robertlanfear.com/blog/files/concordance_factors.html)
 
-#Packages
+cat("\n#### concordance.R: Starting script.\n")
+
+## Command-line arguments
+options(warn = 1)
+args = commandArgs(trailingOnly=TRUE)
+directory <- args[1]
+
+## Packages
 library(dplyr)
 library(viridis)
 library(ggplot2)
@@ -10,16 +17,14 @@ library(ggrepel)
 library(GGally)
 library(entropy)
 
-args = commandArgs(trailingOnly=TRUE)
-directory <- args[1]
-
-# Read the data
+## Read the data
 d = read.delim(paste0(directory, "/concord.cf.stat"), header = T, comment.char='#')           
 names(d)[10] = "bootstrap"
 names(d)[11] = "branchlength"
 
-# Test ILS assumptions
-# First we use a slightly modified chisq function which behaves nicely when you feed it zeros
+## Test ILS assumptions
+cat("\n#### concordance.R: Testing ILS assumptions ... \n")
+## First we use a slightly modified chisq function which behaves nicely when you feed it zeros
 chisq = function(DF1, DF2, N){
     tryCatch({
         # Converts percentages to counts, runs chisq, gets pvalue
@@ -41,7 +46,8 @@ subset(data.frame(e), (gEF_p < 0.05 | sEF_p < 0.05))
 
 write.table(e, paste0(directory, "/chisq.txt"))
 
-# Calculate internode certainty
+## Calculate internode certainty
+cat("\n#### concordance.R: Calculating concordance ... \n")
 IC = function(CF, DF1, DF2, N){
     
     # Converts to counts
@@ -63,3 +69,6 @@ e = e %>%
     mutate(sIC = IC(sCF, sDF1, sDF2, sN))
 	
 write.table(e, paste0(directory, "/internode_certainty.txt"))
+
+## Report:
+cat("\n#### concordance.R: Done with script.\n")
