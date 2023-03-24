@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #SBATCH -p medium40
 
 set -euo pipefail
@@ -7,9 +7,9 @@ set -euo pipefail
 #### SET-UP ####
 ################################################################################
 ## Software:
-# BWA needs to be included in $PATH
-# SAMtools needs to be included in $PATH
-# GATK4 needs to be included in $PATH
+# BWA needs to be included in $PATH (v7.0.17; https://github.com/lh3/bwa)
+# SAMtools needs to be included in $PATH (v1.11; http://www.htslib.org/)
+# gatk needs to be included in $PATH (v4.1.9.0; https://gatk.broadinstitute.org/hc/en-us)
 
 ## Command-line args:
 REFERENCE=$1
@@ -24,10 +24,7 @@ date
 echo -e "#### indexing.sh: Starting script."
 echo -e "#### indexing.sh: Reference genome: $REFERENCE"
 echo -e "#### indexing.sh: Index with BWA: $NT"
-if [[ $BWA ]]
-then
-	echo -e "#### indexing.sh: Name for BWA index file: $BWA_INDEX"
-fi
+[[ $BWA ]] && echo -e "#### indexing.sh: Name for BWA index file: $BWA_INDEX"
 echo -e "#### indexing.sh: Index with SAMtools: $SAMTOOLS"
 echo -e "#### indexing.sh: Index with GATK (Picard): $GATK \n\n"
 
@@ -37,18 +34,10 @@ echo -e "#### indexing.sh: Index with GATK (Picard): $GATK \n\n"
 cd $(dirname $REFERENCE)
 
 ## Index with BWA
-if [[ $BWA ]]
-then
-	echo -e "#### indexing.sh: Creating index of $REFERENCE with BWA ...\n"
-	bwa index -p $BWA_INDEX -a bwtsw $REFERENCE
-fi
+[[ $BWA ]] && echo -e "#### indexing.sh: Creating index of $REFERENCE with BWA ...\n" && bwa index -p $BWA_INDEX -a bwtsw $REFERENCE
 
 ## Index with SAMtools
-if [[ $SAMTOOLS ]]
-then
-	echo -e "#### indexing.sh: Creating index of $REFERENCE with SAMtools ...\n"
-	samtools faidx $REFERENCE
-fi
+[[ $SAMTOOLS ]] && echo -e "#### indexing.sh: Creating index of $REFERENCE with SAMtools ...\n" && samtools faidx $REFERENCE
 
 ## Index with GATK (Picard)
 if [[ $GATK ]]

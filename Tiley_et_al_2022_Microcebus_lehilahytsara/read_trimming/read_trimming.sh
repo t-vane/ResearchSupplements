@@ -1,15 +1,13 @@
-#!/bin/sh
+#!/bin/bash
 #SBATCH -p medium40
 
 set -euo pipefail
-
-source /home/nibtve93/.bashrc
 
 ################################################################################
 #### SET-UP ####
 ################################################################################
 ## Software:
-TRIMMOMATIC=/home/nibtve93/software/Trimmomatic-0.39/trimmomatic-0.39.jar
+TRIMMOMATIC=/home/nibtve93/software/Trimmomatic-0.39/trimmomatic-0.39.jar (v0.39; https://github.com/usadellab/Trimmomatic)
 
 ## Command-line args:
 MODE=$1
@@ -45,8 +43,7 @@ then
 	echo -e "#### read_trimming.sh: Trimming single-end reads for individual $INDV ...\n"
 	java -jar $TRIMMOMATIC SE -threads $NT -phred33 $IN_DIR/$INDV.1.fq.gz $OUT_DIR/$INDV.trimmed.1.fq.gz ILLUMINACLIP:$ADAPTERS:2:30:10 AVGQUAL:20 SLIDINGWINDOW:4:15 LEADING:3 TRAILING:3 MINLEN:60
 else
-	echo -e "#### read_trimming.sh: Invalid sequencing mode provided - only PE and SE allowed. ...\n"
-	exit 1
+	echo -e "#### read_trimming.sh: Invalid sequencing mode provided - only PE and SE allowed. ...\n" && exit 1
 fi
 
 ## Report:
