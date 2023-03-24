@@ -11,7 +11,7 @@ VCF_IN=$PWORK/$SET_ID/vcf/populations.snps.07filt.vcf
 mkdir -p $PHYL_DIR/logFiles
 
 #################################################################
-#### 1 MAXIMUM LIKELIHOOD INFERENCE WITH ASCERTAINMENT BIAS CORRECTION####
+#### 1 MAXIMUM LIKELIHOOD INFERENCE WITH ASCERTAINMENT BIAS CORRECTION ####
 #################################################################
 mkdir -p $PHYL_DIR/ml
 
