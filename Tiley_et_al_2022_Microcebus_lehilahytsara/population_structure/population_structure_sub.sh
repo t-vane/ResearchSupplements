@@ -25,10 +25,10 @@ mkdir -p $POP_DIR/logFiles
 ##################################################
 mkdir -p $POP_DIR/pca/genotypeLikelihoods
 
-IND_FILE=$POP_DIR/$SET_ID.txt # File with individual IDs in first columns and population assignments in second column
+IND_FILE=$POP_DIR/$SET_ID.txt # File with individual IDs in first column and population assignments in second column
 NT=20
 
-sbatch --output=$POP_DIR/logFiles/pca.$SET_ID.oe $SCRIPTS_DIR/pca.sh $NC $BEAGLE $POP_DIR/pca/genotypeLikelihoods $SCRIPTS_DIR $IND_FILE $SET_ID
+sbatch --output=$POP_DIR/logFiles/pca.$SET_ID.oe $SCRIPTS_DIR/pca.sh $NT $BEAGLE $POP_DIR/pca/genotypeLikelihoods $SCRIPTS_DIR $IND_FILE $SET_ID
 
 
 #################################################################
@@ -50,30 +50,37 @@ CLUSTERS=12 # Maximum number of clusters to assume in admixture analysis
 REPEATS=10 # Number of independent runs
 PERCENTAGE="75/100" # Minimum percentage of represented individuals
 MININD=$(( ($(zcat $BEAGLE | head -1 | wc -w)/3-1) * $PERCENTAGE )) # Minimum number of represented individuals
-NC=80
+NT=80
 
 ## Submit array job to infer individual ancestries for each number of clusters (ranging from 1 to $CLUSTERS), using $REPEATS repetitions 
 for K in $(seq 1 $CLUSTERS)
 do
-	[[ $K < $CLUSTERS ]] && sbatch --array=1-$ITERATIONS --output=$POP_DIR/logFiles/ngsadmix$K.$SET_ID.%A_%a.oe $SCRIPTS_DIR/ngsadmix.sh $NT $K $BEAGLE $POP_DIR/ngsadmix/genotypeLikelihoods $MININD $SET_ID
-	[[ $K == $CLUSTERS ]] && sbatch --wait --array=1-$ITERATIONS --output=$POP_DIR/logFiles/ngsadmix$K.$SET_ID.%A_%a.oe $SCRIPTS_DIR/ngsadmix.sh $NT $K $BEAGLE $POP_DIR/ngsadmix/genotypeLikelihoods $MININD $SET_ID
+	JID=$(sbatch --array=1-$REPEATS --output=$POP_DIR/logFiles/ngsadmix$K.$SET_ID.%A_%a.oe $SCRIPTS_DIR/ngsadmix.sh $NT $K $BEAGLE $POP_DIR/ngsadmix/genotypeLikelihoods $MININD $SET_ID)
+	declare RUNID_$K=${JID##* }
 done
 
+
 ## Print likelihood values file
-rm $POP_DIR/ngsadmix/genotypeLikelihoods/likevalues.$SET_ID.txt; touch $POP_DIR/ngsadmix/genotypeLikelihoods/likevalues.$SET_ID.txt
+LIKE_FILE=$POP_DIR/ngsadmix/genotypeLikelihoods/likevalues.$SET_ID.txt # File for likelihoods summary
+rm $LIKE_FILE; touch $LIKE_FILE
 for K in $(seq 1 $CLUSTERS); 
 do
 	for SEED in $(seq 1 $REPEATS)
 	do
-		grep "best" $POP_DIR/ngsadmix/genotypeLikelihoods/$SET_ID.K$K.seed$SEED.log | awk '{print $K}' | cut -d'=' -f2- | sort -g | sed "s/after/$K/g" | sed "s/iterations/$SEED/g" >> $POP_DIR/ngsadmix/genotypeLikelihoods/likevalues.$SET_ID.txt
-		rm $POP_DIR/ngsadmix/genotypeLikelihoods/$SET_ID.K$K.seed$SEED.fopt.gz
+		[[ $K == 1 ]] && [[ $SEED == 1 ]] && VARNAME=RUNID_$K && JID=$(sbatch --account=nib00015 --dependency=afterok:${!VARNAME} --output=$POP_DIR/logFiles/print_likes.$SET_ID.oe $SCRIPTS_DIR/print_likes.sh $POP_DIR/ngsadmix/genotypeLikelihoods/$SET_ID.K$K.seed$SEED.log $LIKE_FILE)
+		[[ $K != 1 ]] || [[ $SEED != 1 ]] && VARNAME=RUNID_$K && JID=$(sbatch --account=nib00015 --dependency=afterok:${!VARNAME}:${JID##* } --output=$POP_DIR/logFiles/print_likes.$SET_ID.oe $SCRIPTS_DIR/print_likes.sh $POP_DIR/ngsadmix/genotypeLikelihoods/$SET_ID.K$K.seed$SEED.log $LIKE_FILE)
 	done
 done
 
 ## Plot results
 IND_FILE=$POP_DIR/$SET_ID.txt # File with individual IDs in first columns and population assignments in second column
 
-sbatch --output=$POP_DIR/logFiles/plot_ngsadmix.$SET_ID.oe $SCRIPTS_DIR/plot_ngsadmix.sh $SCRIPTS_DIR $POP_DIR/ngsadmix/genotypeLikelihoods $POP_DIR/ngsadmix/genotypeLikelihoods/likevalues.$SET_ID.txt $IND_FILE $SET_ID
+until [[ $(cat $LIKE_FILE | wc -l) == $(( $CLUSTERS*$REPEATS )) ]]
+do
+	sleep 5
+done
+
+sbatch --output=$POP_DIR/logFiles/plot_ngsadmix.$SET_ID.oe $SCRIPTS_DIR/plot_ngsadmix.sh $SCRIPTS_DIR $POP_DIR/ngsadmix/genotypeLikelihoods $LIKE_FILE $IND_FILE $SET_ID
 
 
 #################################################################

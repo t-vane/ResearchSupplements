@@ -5,13 +5,11 @@ cat("\n#### ibd.R: Starting script.\n")
 ## Command-line arguments
 options(warn = 1)
 args <- commandArgs(trailingOnly = TRUE)
-WD <- args[1]
-geo_dist <- args[2]
-gen_dist <- args[3]
-out <- args[4]
+geo_dist <- args[1]
+gen_dist <- args[2]
+out <- args[3]
 
-## Report
-cat("\n#### ibd.R: Working directory:", WD, "\n")
+## Report:
 cat("#### ibd.R: Geographic distance matrix:", geo_dist, "\n")
 cat("#### ibd.R: Genetic distance matrix:", gen_dist, "\n")
 cat("#### ibd.R: Output prefix:", out, "\n\n")
@@ -23,9 +21,8 @@ library(ggrepel)
 
 ## Process command-line arguments
 cat("#### ibd.R: Processing and transforming input ... \n")
-setwd(WD)
-geo <- read.table(geo, row.names=1 header=TRUE)
-gen <- read.table(gen, row.names=1 header=TRUE)
+geo <- read.table(geo_dist, row.names=1 header=TRUE)
+gen <- read.table(gen_dist, row.names=1 header=TRUE)
 # Remove NA values
 geo[is.na(geo)]<-0
 gen[is.na(gen)]<-0

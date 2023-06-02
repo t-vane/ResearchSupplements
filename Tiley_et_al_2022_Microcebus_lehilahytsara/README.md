@@ -10,7 +10,7 @@ This repository holds scripts for the following analyses conducted for the publi
 - Population structure inference
 - Demographic modeling
 
-Each directory contains a script from which the respective pipeline is executed, labeled by the suffic "_sub". Input and output files can be found in the [Dryad digital repository](https://doi.org/10.5061/dryad.dncjsxkvz). 
+Each directory contains a script from which the respective pipeline is executed, labeled by the suffix "_sub". Input and output files can be found in the [Dryad digital repository](https://doi.org/10.5061/dryad.dncjsxkvz). 
 
 ### Read trimming
 `./read_trimming` contains scripts to trim demultiplexed raw sequencing reads with [Trimmomatic v0.39](https://github.com/usadellab/Trimmomatic). 
@@ -28,7 +28,7 @@ Each directory contains a script from which the respective pipeline is executed,
 `./genotype_likelihoods` contains scripts to infer genotype and site allele frequency likelihoods with [ANGSD v0.934](http://www.popgen.dk/angsd/index.php/ANGSD).
 
 ### Phylogenetic inference
-`./phylogenetic_inference` contains scripts to infer maximum likelihood and quartet-based phylogenies with [RAxML-NG v1.0.2](https://github.com/amkozlov/raxml-ng) and [SVDquartets of PAUP* v4.0a](https://paup.phylosolutions.com/), respectively, as well as to conduct approximately unbiased tests with [IQ-TREE v2.2.0](http://www.iqtree.org/).
+`./phylogenetic_inference` contains scripts to infer maximum likelihood and quartet-based phylogenies with [RAxML-NG v1.0.2](https://github.com/amkozlov/raxml-ng) and [SVDquartets of PAUP* v4.0a](https://paup.phylosolutions.com/), respectively, and to conduct approximately unbiased tests with [IQ-TREE v2.2.0](http://www.iqtree.org/).
 
 ### Population structure inference
 `./population_structure` contains scripts for the following population structure analyses:
