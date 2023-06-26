@@ -12,7 +12,7 @@ This repository holds scripts for the following analyses conducted for the publi
 - Coalescent modelling
 - Ecological niche modelling
 
-Each directory contains a script from which the respective pipeline is executed, labeled by the suffix "_sub". Input and output files can be found in the [digital repository](). 
+Each directory contains a script from which the respective pipeline is executed, labeled by the suffix "_sub". Input and output files can be found in the [digital repository](https://doi.org/10.5281/zenodo.7331038). 
 
 ### Read trimming
 `./read_trimming` contains scripts to trim demultiplexed raw sequencing reads with [Trimmomatic v0.39](https://github.com/usadellab/Trimmomatic). 
