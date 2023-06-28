@@ -1,6 +1,9 @@
 ################################################################################
 #### POPULATION STRUCTURE ANALYSES ####
 ################################################################################
+## Software:
+# realSFS needs to be included in $PATH (http://www.popgen.dk/angsd/index.php/RealSFS)
+
 SCRIPTS_DIR=/home/nibtve93/scripts/populationStructure
 
 SET_ID=gerpi
@@ -85,13 +88,13 @@ do
 	sbatch --wait --account=nib00015 --output=$POP_DIR/logFiles/$SET_ID.realsfs_fst.$FIRST.$SECOND.oe $SCRIPTS_DIR/realsfs_fst.sh $NT "$PWORK/$SET_ID/angsd/saf.$FIRST.idx $PWORK/$SET_ID/angsd/saf.$SECOND.idx" $OUT
 	
 	# Write to summary file 
-	echo ${FIRST}_$SECOND $(cat $OUT.fst) >> $POP_DIR/ibd/fst/$SET_ID.fst_sumstats.txt
+	echo ${FIRST}_$SECOND $(realSFS fst stats $OUT.fst.idx) >> $POP_DIR/ibd/fst/$SET_ID.fst_sumstats.txt
 done < $COMB_FILE
 
 ## Conduct Mantel tests and plot IBD
 GEO_DIST=$POP_DIR/ibd/geo_dist.txt # Distance matrix with mean geographic distances between population pairs as estimated with Geographic Distance Matrix Generator v1.2.3 (https://biodiversityinformatics.amnh.org/open_source/gdmg/), with row and column names
 GEN_DIST=$POP_DIR/ibd/fst/gen_dist.txt # Distance matrix with weighted pairwise F_ST between populations as estimated with realSFS, with row and column names
-sbatch --account=nib00015 --output=$POP_DIR/logFiles/$SET_ID.ibd.fst.oe $SCRIPTS_DIR/ibd.sh $GEO_DIST $GEN_DIST $POP_DIR/ibd/fst/$SET_IT "_fst"
+sbatch --account=nib00015 --output=$POP_DIR/logFiles/$SET_ID.ibd.fst.oe $SCRIPTS_DIR/ibd.sh $GEO_DIST $GEN_DIST "_fst" $POP_DIR/ibd/fst/$SET_IT
 
 ##################################################
 #### 3.1 BASED ON GENETIC DISTANCES ####
@@ -106,7 +109,7 @@ sbatch --wait --account=nib00015 --output=$POP_DIR/logFiles/$SET_ID.vcfr.oe $SCR
 GEO_DIST=$POP_DIR/ibd/geo_dist.txt # Distance matrix with mean geographic distances between population pairs as estimated with Geographic Distance Matrix Generator v1.2.3 (https://biodiversityinformatics.amnh.org/open_source/gdmg/), with row and column names
 GEN_DIST=$POP_DIR/ibd/geneticDistances/gen_dist.txt # Distance matrix with mean genetic distances between populations as estimated with vcfR, with row and column names
 GEN_DIST_SD=$POP_DIR/ibd/geneticDistances/gen_dist_sd.txt # Distance matrix with standard deviations of mean genetic distances between populations as estimated with vcfR, with row and column names
-sbatch --account=nib00015 --output=$POP_DIR/logFiles/$SET_ID.ibd.geneticDistances.oe $SCRIPTS_DIR/ibd.sh $GEO_DIST $GEN_DIST $GEN_DIST_SD $POP_DIR/ibd/geneticDistances/$SET_IT "_geneticDistances"
+sbatch --account=nib00015 --output=$POP_DIR/logFiles/$SET_ID.ibd.geneticDistances.oe $SCRIPTS_DIR/ibd.sh $GEO_DIST $GEN_DIST "_geneticDistances" $POP_DIR/ibd/geneticDistances/$SET_IT $GEN_DIST_SD
 
 
 #################################################################

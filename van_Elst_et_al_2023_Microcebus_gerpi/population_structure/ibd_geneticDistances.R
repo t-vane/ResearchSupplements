@@ -8,8 +8,8 @@ args <- commandArgs(trailingOnly = TRUE)
 WD <- args[1]
 geo_dist <- args[2]
 gen_dist <- args[3]
-gen_dist_sd <- args[4]
-out <- args[5]
+out <- args[4]
+gen_dist_sd <- args[5]
 
 ## Report
 cat("\n#### ibd_geneticDistances.R: Working directory:", WD, "\n")
