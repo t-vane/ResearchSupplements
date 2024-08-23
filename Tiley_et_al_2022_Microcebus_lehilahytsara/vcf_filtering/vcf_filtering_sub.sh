@@ -30,11 +30,11 @@ sbatch --job-name=vcf_filter_pip --output=$VCF_DIR/logFiles/01_filter_min-dp.$SE
 ## Apply three rounds of filtering for missing data across individuals and genotypes
 MAXMISS_GENO1=0.5 # One minus maxmimum missingness across genotypes (filtering round 1), i.e., maximum missingness = 1-$MAXMISS_GENO1
 MAXMISS_GENO2=0.6 # One minus maxmimum missingness across genotypes (filtering round 2), i.e., maximum missingness = 1-$MAXMISS_GENO2
-MAXMISS_GENO3=0.7 # One minus maxmimum missingness across genotypes (filtering round 2), i.e., maximum missingness = 1-$MAXMISS_GENO3
+MAXMISS_GENO3=0.7 # One minus maxmimum missingness across genotypes (filtering round 3), i.e., maximum missingness = 1-$MAXMISS_GENO3
 FILTER_INDS=TRUE # Boolean specifying whether to filter for missingness across individuals
-MAXMISS_IND1=0.9 # Maxmimum missingness across individuals (filtering round 1)
+MAXMISS_IND1=0.875 # Maxmimum missingness across individuals (filtering round 1)
 MAXMISS_IND2=0.7 # Maxmimum missingness across individuals (filtering round 2)
-MAXMISS_IND3=0.5 # Maxmimum missingness across individuals (filtering round 2)
+MAXMISS_IND3=0.5 # Maxmimum missingness across individuals (filtering round 3)
 sbatch --job-name=vcf_filter_pip --dependency=singleton --output=$VCF_DIR/logFiles/02_filter_missing-1.$SET_ID.oe $SCRIPTS_DIR/02_filter_missing-1.sh \
 	$VCF_DIR/$SET_ID.populations.snps.01filt.vcf $VCF_DIR/$SET_ID.populations.snps.02filt.vcf $MAXMISS_GENO1 $MAXMISS_GENO2 $MAXMISS_GENO3 $FILTER_INDS $MAXMISS_IND1 $MAXMISS_IND2 $MAXMISS_IND3
 

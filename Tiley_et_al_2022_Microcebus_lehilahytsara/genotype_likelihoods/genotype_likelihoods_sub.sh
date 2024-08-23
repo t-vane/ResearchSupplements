@@ -26,7 +26,7 @@ for i in PE SE
 do
 	IN_FILE=$ANGSD_DIR/angsd_$i.txt # List of samples (without file extensions) that shall be included for global genotype likelihood estimation, separated by sequencing mode (PE or SE)
 	NO_INDS=$(cat $IN_FILE | wc -l)
-	
+
 	[[ $i == PE ]] && sbatch --array=1-$NO_INDS --output=$ANGSD_DIR/logFiles/bamHits.$SET_ID.%A_%a.oe $SCRIPTS_DIR/coverage.sh $i $IN_FILE $BAM_DIR $ANGSD_DIR/bamHits
 	[[ $i == SE ]] && sbatch --wait --array=1-$NO_INDS --output=$ANGSD_DIR/logFiles/bamHits.$SET_ID.%A_%a.oe $SCRIPTS_DIR/coverage.sh $i $IN_FILE $BAM_DIR $ANGSD_DIR/bamHits
 done
@@ -50,7 +50,7 @@ echo $BAM_DIR/$INDV.auto.bam >> $ANGSD_DIR/$SET_ID.bamlist
 done < $IN_FILE_ALL
 
 ## Run angsd
-FILTERS="-setMinDepth $gmin -setMaxDepth $gmax -setMaxDepthInd $maxdepthind -setMinDepthInd $mindepthind -minInd $minind -SNP_pval 1e-5 -minQ 20 -minMapQ 20 -minMaf 0.05 -uniqueOnly 1 -remove_bads 1 -skipTriallelic 1 -only_proper_pairs 1 -baq 1 -C 50"
+FILTERS="-setMinDepth $GMIN -setMaxDepth $GMAX -setMaxDepthInd $MAXDEPTHIND -setMinDepthInd $MINDEPTHIND -minInd $MININD -SNP_pval 1e-5 -minQ 20 -minMapQ 20 -minMaf 0.05 -uniqueOnly 1 -remove_bads 1 -skipTriallelic 1 -only_proper_pairs 1 -baq 1 -C 50"
 TODO="-GL 1 -doGlf 2 -doMaf 1 -doMajorMinor 1 -doCounts 1"
 sbatch --output=$ANGSD_DIR/logFiles/angsd.$SET_ID.oe $SCRIPTS_DIR/angsd.sh $NT $REFERENCE $ANGSD_DIR/$SET_ID.bamlist "$TODO" "$FILTERS" $ANGSD_DIR/$SET_ID
 
@@ -61,15 +61,15 @@ sbatch --output=$ANGSD_DIR/logFiles/angsd.$SET_ID.oe $SCRIPTS_DIR/angsd.sh $NT $
 POPS="riamalandy ambavala ambatovy ambohitantely anjanaharibe anjiahely ankafobe marojejy tsinjoarivo metapopulation"
 
 ## Estimate site allele frequency likelihoods per population
-for $i in $POPS
-do	
+for i in $POPS
+do
 	echo -e "#### Processing population $i ...\n"
 	IN_FILE=$ANGSD_DIR/angsd_$i.txt # List of samples in the population
 	NO_INDS=$(cat $IN_FILE | wc -l)
-	
+
 	## Estimate and plot coverage distributions for each individual
 	sbatch --wait --output=$ANGSD_DIR/logFiles/cov_plot.$i.oe $SCRIPTS_DIR/cov_plot.sh $SCRIPTS_DIR $IN_FILE $ANGSD_DIR/bamHits $i
-	
+
 	## Set thresholds for angsd
 	MINDEPTHIND=$(cat $ANGSD_DIR/bamHits/statistics/$i.minmax.txt | cut -d " " -f2 | sort -n | head -1) # Minimum depth per individual
 	MAXDEPTHIND=$(cat $ANGSD_DIR/bamHits/statistics/$i.minmax.txt | cut -d " " -f3 | sort -n | tail -1) # Maximum depth per individual
@@ -84,9 +84,9 @@ do
 	do
 	echo $BAM_DIR/$INDV.auto.bam >> $ANGSD_DIR/$i.bamlist
 	done < $IN_FILE
-	
+
 	## Run angsd
 	TODO="-GL 1 -doSaf 1 -doCounts 1 -anc $REFERENCE"
-	FILTERS="-setMinDepth $gmin -setMaxDepth $gmax -setMaxDepthInd $maxdepthind -setMinDepthInd $mindepthind -minInd $minind -minMapQ 20 -minQ 20 -uniqueOnly 1 -remove_bads 1 -C 50 -baq 1 -only_proper_pairs 1"
-	sbatch --output=$ANGSD_DIR/logFiles/angsd.saf.$i.oe $SCRIPTS_DIR/angsd.sh $NT $REFERENCE $ANGSD_DIR/$i.bamlist "$TODO" "$FILTERS" $ANGSD_DIR/saf.$i
+	FILTERS="-setMinDepth $GMIN -setMaxDepth $GMAX -setMaxDepthInd $MAXDEPTHIND -setMinDepthInd $MINDEPTHIND -minInd $MININD -minMapQ 20 -minQ 20 -uniqueOnly 1 -remove_bads 1 -C 50 -baq 1 -only_proper_pairs 1"
+	sbatch --output=$ANGSD_DIR/logFiles/angsd.saf.$i.oe $SCRIPTS_DIR/angsd.sh $NT $REFERENCE $ANGSD_DIR/$i.bamlist "$TODO" "$FILTERS" $ANGSD_DIR/$i
 done

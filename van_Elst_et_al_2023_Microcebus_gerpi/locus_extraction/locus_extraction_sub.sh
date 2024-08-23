@@ -20,7 +20,7 @@ INDFASTA_DIR=$FASTA_DIR/$SET_ID.byind
 BED_DIR=$OUT_DIR/bed
 BED_REMOVED_SITES=$BED_DIR/$SET_ID.sitesinvcfremovedbyfilters.bed
 
-LOCUSFASTA_DIR_INTERMED=$FASTA_DIR/$SET_ID}_bylocus_intermed
+LOCUSFASTA_DIR_INTERMED=$FASTA_DIR/${SET_ID}_bylocus_intermed
 LOCUSFASTA_DIR_FINAL=$FASTA_DIR/${SET_ID}_bylocus_final
 
 LOCUSBED_INTERMED=$BED_DIR/${SET_ID}_loci_intermed.bed
@@ -37,7 +37,6 @@ mkdir -p $BED_DIR
 
 mkdir $LOCUSFASTA_DIR_INTERMED
 mkdir $LOCUSFASTA_DIR_FINAL
-mkdir $LOCUSFASTA_DIR_FINAL_GPHOCS
 mkdir $BED_DIR"/"$SET_ID
 
 mkdir -p $OUT_DIR/logFiles/
